@@ -1,1 +1,1 @@
-#Save you key here
+openai_key = ""
