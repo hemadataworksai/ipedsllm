@@ -6,6 +6,7 @@ from langchain.chains.openai_tools import create_extraction_chain_pydantic
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI
 
+
 llm = ChatOpenAI(model="gpt-3.5-turbo-1106", temperature=0)
 
 
@@ -38,12 +39,11 @@ def get_tables(tables: List[Table]) -> List[str]:
 
 # table_names = "\n".join(db.get_usable_table_names())
 table_details = get_table_details()
-table_details_prompt = f"""Return the names of ALL the SQL tables that MIGHT be relevant to the user question.\n\n Return the names of all the columns from relevant tables that MIGHT be relevant tot eh user question \
+table_details_prompt = f"""Refer the Above Context and Return the names of SQL Tables mentioned in the above context\n\n 
 The tables are:
 
 {table_details}
-
-Remember to include ALL POTENTIALLY RELEVANT tables, even if you're not sure that they're needed."""
+ """
 
 table_chain = {"input": itemgetter("question")} | create_extraction_chain_pydantic(
     Table, llm, system_message=table_details_prompt) | get_tables
