@@ -18,7 +18,7 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 LANGCHAIN_TRACING_V2 = os.getenv("LANGCHAIN_TRACING_V2")
 LANGCHAIN_API_KEY = os.getenv("LANGCHAIN_API_KEY")
-db_url = os.getenv("DB_URL_1")
+db_url = os.getenv("DB_URL")
 
 
 @st.cache_resource
@@ -59,10 +59,22 @@ def create_history(messages):
 
 
 def invoke_chain(question, messages):
-    chain = get_chain()
-    history = create_history(messages)
-    response = chain.invoke(
-        {"question": question, "top_k": 3, "messages": history.messages})
-    history.add_user_message(question)
-    history.add_ai_message(response)
-    return response
+    try:
+        chain = get_chain()
+        history = create_history(messages)
+        response = chain.invoke(
+            {"question": question, "top_k": 3, "messages": history.messages})
+        history.add_user_message(question)
+        history.add_ai_message(response)
+        
+        # Check if response is empty or None
+        if not response or response.strip() == "":
+            return "Sorry, I couldn't find any specific information related to your query. Please try asking something else or provide more details!"
+        
+        elif "error" in response:
+            return "Sorry, I couldn't find any specific information related to your query. Please try asking something else or provide more details!"  
+        return response 
+        
+    except Exception as e:
+        print(f"Error invoking chain: {e}")
+        return "Sorry, an error occurred while processing your request."
