@@ -13,10 +13,15 @@ final_prompt = ChatPromptTemplate.from_messages(
         ("system",
          "You are a PostgreSQL expert. Given an input question, create a syntactically correct PostgreSQL query to run and return ONLY the generated Query and nothing else. Remember NOT include backticks ```sql ``` before and after the created query. Unless otherwise specified, do not return more than \
         {top_k} rows.\n\nHere is the relevant table info: {table_info}\
-        Finally, Use only tables names and Column names mentioned in:\n\n {context} to create correct SQL Query and pay close attention on which column is in which table. if context contains more than one tables then create a query by performing JOIN operation only using the column unitid for the tables.\
+        Finally, Use only tables names, Column names and Encoded values mentioned in:\n\n {context} to create correct SQL Query and pay close attention on which column is in which table. if context contains more than one tables then create a query by performing JOIN operation only using the column unitid for the tables.\
+        - If the input variable is requesting a list or count of institutes, location of institutes, always include the 'hd2022' table as a reference. Use the join function with the table except ic2022campuses table specified in the context variable, joining on the unitid column. Display the institute name (instnm), state (stabbr), and city (city) from the hd2022 table. Whenever the input requests the total count or names of institutes, ensure to include the unitid, stabbr, instnm, and city columns from the hd2022 table.\
+        - If an institute, university, or college name is mentioned in the input, always use the 'instnm' column of the 'hd2022' table to retrieve the 'unitid' of that institute, university, or college.\
+        - Do not join 'hd2022' table and 'ic2022campuses' table while creating SQL query\
+        - Always use '=' or 'IN'  operators for the given 'Encoded values' in the 'WHERE' clause condition of generated SQL query.\
         Follow these Instructions for creating syntactically correct SQL query:\
         - Be sure not to query for columns that do not exist in the tables and use alias only where required.\
         - Whenever asked for Institute Names, return the institute names using column 'instnm' associated with the 'unitid' in the generated query.\
+        - Always use the 'Encoded values' specified in the context in the 'WHERE' clause condition of your SQL query.\
         - Likewise, when asked about the average (AVG function) or ratio, ensure the appropriate aggregation function is used.\
         - Pay close attention to the filtering criteria mentioned in the question and incorporate them using the WHERE clause in your SQL query.\
         - If the question involves multiple conditions, use logical operators such as AND, OR to combine them effectively.\
@@ -37,3 +42,60 @@ SQL Query: {query}
 SQL Result: {result}
 Answer: """
 )
+
+column_desc_retriver_prompt = """
+Retrieve the description of a specific column as a string, based on the column name mentioned in the question, using the provided context.
+
+Context:
+{context}
+
+- `Column_Description`: A dictionary where keys are column descriptions and values are column names.
+
+Tasks:
+Identify one specific description corresponding to the one column name mentioned in the question. Provide a single column description to assist the downstream Text-to-SQL Agent in formulating SQL queries involving JOINs, filtering, and subqueries.
+Question:
+{question}
+
+Output format:
+
+'Column_Description key'
+    """
+    
+column_name_retriver_prompt = """
+Retrieve the specific column names that are relevant to the question variables within the provided context. Use the following details:
+
+Context:
+{context}
+
+Details:
+
+- `Column_Description`: This dictionary contains column descriptions as keys and their respective column names as values.
+
+Tasks to accomplish:
+1. Identify column names.
+
+Scan the context for column names pertinent to the question. Include the 'unitid' column of the relevant table to aid the downstream Text-to-SQL Agent in constructing SQL queries involving JOINs, filters, and subqueries.
+
+Question: {question}
+
+Output format:
+
+Column names related to the question: [column_name1, column_name2, ...]
+    """
+
+encoded_values_retriver_prompt = """Retrieve the specific one encoded value based on the provided context. Answer the question using only the following context:
+
+{context}
+
+Details:
+- `Encoded_Values`: A dictionary containing code descriptions as keys and corresponding encoded values as integers, float or string representing the discrete column values.
+
+Tasks to perform:
+1. Identify the encoded value.
+
+Search the context for one encoded value that answers the question. Include a specific one encoded value to help the downstream Text-to-SQL Agent in forming SQL queries involving JOINs, filtering, and subqueries. Note that `unitid` is the primary key for JOIN operations.
+
+Question: {question}
+Output format:
+Encoded_Values:
+"""

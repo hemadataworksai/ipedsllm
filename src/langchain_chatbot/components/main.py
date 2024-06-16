@@ -40,6 +40,8 @@ def main():
         with st.spinner("Generating response..."):
             with st.chat_message("assistant"):
                 response = invoke_chain(prompt, st.session_state.messages)
+                if response is None:
+                    response = "There are no results based on the given input. Please try to modify few parameters to retrieve the relevant information."
                 st.markdown(response)
         st.session_state.messages.append(
             {"role": "assistant", "content": response})
