@@ -5,6 +5,7 @@ from pymongo import MongoClient
 from langchain_core.runnables import RunnablePassthrough,RunnableMap
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
+from operator import itemgetter
 from prompts import column_name_retriver_prompt, encoded_values_retriver_prompt, column_desc_retriver_prompt
 import re
 import os
@@ -75,7 +76,7 @@ def vector_search(user_query, collection):
 
 #=====================================Get table Infos===========================================
 
-def get_table_info(query: str, template: str, context: dict):
+def get_table_info(question: str, template: str, context: dict):
     prompt = ChatPromptTemplate.from_template(template)
 
     model = ChatOpenAI()
@@ -86,7 +87,7 @@ def get_table_info(query: str, template: str, context: dict):
         | model
         | StrOutputParser()
     )
-    return table_chain.invoke({"context": context, "question": query})
+    return table_chain.invoke({"context": context, "question": question})
 
 #=====================================Pattern Selection for Column Names=====================================
 patterns = [
