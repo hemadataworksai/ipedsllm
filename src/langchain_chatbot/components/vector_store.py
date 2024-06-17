@@ -5,7 +5,6 @@ from pymongo import MongoClient
 from langchain_core.runnables import RunnablePassthrough,RunnableMap
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-from operator import itemgetter
 from prompts import column_name_retriver_prompt, encoded_values_retriver_prompt, column_desc_retriver_prompt
 import re
 import os
