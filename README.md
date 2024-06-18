@@ -21,7 +21,7 @@ Make sure you have Python 3.11 installed on your system.
 Clone the repository using the following command:
 
 ```bash
-git clone https://github.com/hemadataworksai/ipedsllm.git
+https://github.com/enggabhishek/ipedsllm.git
 ```
 
 ### 2. Setting up a Virtual Environment
