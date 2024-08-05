@@ -1,11 +1,6 @@
 ## LLM Chatbot
-
 ## Description
-
 This repository contains the code for the Langchain and LlamaIndex chatbots, which utilize natural language to SQL processing with Langchain and LLamaIndex using OpenAI GPT-3.5 Turbo LLM engine. The data source for these chatbots is IPEDS (Integrated Postsecondary Education Data System).
-
-![alt text](RAG_Architecture.png)
-
 ### IPEDS (Integrated Postsecondary Education Data System)
 
 IPEDS is a comprehensive data source maintained by the National Center for Education Statistics (NCES), which collects data from all primary providers of postsecondary education in the United States. It covers various aspects of postsecondary education, including enrollment, graduation rates, financial aid, institutional characteristics, and more.
@@ -23,7 +18,7 @@ Make sure you have Python 3.11 installed on your system.
 Clone the repository using the following command:
 
 ```bash
-https://github.com/enggabhishek/ipedsllm.git
+https://github.com/hemadataworksai/ipedsllm.git
 ```
 
 ### 2. Setting up a Virtual Environment
