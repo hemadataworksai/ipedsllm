@@ -2,12 +2,9 @@ import os
 import streamlit as st
 from openai import OpenAI
 from langchain_utils import invoke_chain
-# from phoenix.trace.langchain import LangChainInstrumentor
 
-# LangChainInstrumentor().instrument()
 
 openai_api_key = os.getenv("API_KEY")
-
 
 def main():
     st.title("University Explorer AI Chatbot")
