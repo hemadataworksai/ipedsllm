@@ -1,21 +1,16 @@
 from langchain.prompts import ChatPromptTemplate
 import streamlit as st
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from pymongo import MongoClient
+from langchain_openai import ChatOpenAI
 from langchain_core.runnables import RunnablePassthrough,RunnableMap
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from prompts import column_name_retriver_prompt, encoded_values_retriver_prompt, column_desc_retriver_prompt
 import re
-import os
 import ast
 import openai
 from dotenv import load_dotenv
 load_dotenv()
-
-
 #==================================================Text Emebedding Model Method======================================
-
 def get_embedding(text):
     
     EMBEDDING_MODEL = "text-embedding-ada-002"
@@ -50,16 +45,16 @@ def vector_search(user_query, collection):
                                         "index": "vector_index",
                                         "path": "embedding",
                                         "queryVector": query_embedding,
-                                        "numCandidates": 250,
-                                        "limit": 15
+                                        "numCandidates": 4,
+                                        "limit": 3
                                     }
                 },
                 {
                     "$project": {
                                     "_id": 0,  # Exclude the _id field
                                     "text": 1,
-                                    "Table_Name": 1, 
-                                    "Table_Description": 1, # Include the Table_Name field
+                                    "Table_Description": 1, # Include the Table_Description field
+                                    "Table_Name": 1,
                                     "Encoded_Values": 1,  # Include the Encoded_Values field
                                     "Column_Description": 1, # Include the Column_Description field
                                     "score": {
@@ -140,7 +135,10 @@ def handle_user_query(question, collection):
         
         for i in ls:
           if encoded_values.get(i, 'N/A')!= 'N/A':
-            code_value= ast.literal_eval(encoded_values.get(i))
+            if isinstance(encoded_values.get(i), str):
+              code_value= ast.literal_eval(encoded_values.get(i))
+            elif isinstance(encoded_values.get(i), dict):
+              code_value = encoded_values.get(i)
             code_value = get_table_info(question, encoded_values_retriver_prompt, code_value)
             cdesc=get_table_info(i, column_desc_retriver_prompt ,context["Column_Description"])
             if count_col == 0:
@@ -163,7 +161,10 @@ def handle_user_query(question, collection):
         code_value =''
         for i in ls:
           if encoded_values.get(i, 'N/A')!= 'N/A':
-            code_value= ast.literal_eval(encoded_values.get(i))
+            if isinstance(encoded_values.get(i), str):
+              code_value= ast.literal_eval(encoded_values.get(i))
+            elif isinstance(encoded_values.get(i), dict):
+              code_value = encoded_values.get(i)
             code_value = get_table_info(question, encoded_values_retriver_prompt, code_value)
             cdesc=get_table_info(i, column_desc_retriver_prompt ,context["Column_Description"])
             if count_col == 0:

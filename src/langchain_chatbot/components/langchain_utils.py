@@ -14,7 +14,6 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
-
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -27,24 +26,21 @@ db_url = os.getenv("DB_URL")
 #====================MongoDB Client Vector DB Connection=====================================
 client = MongoClient(os.getenv('MONGODB_URI'), tls=True,
     tlsAllowInvalidCertificates=True)
-db = client.get_database(os.getenv('DB_NAME'))
+mongo_db = client.get_database(os.getenv('DB_NAME'))
 c_name = os.getenv('COLLECTION_NAME')
-collection= db.Ipeds
+collection= mongo_db.Data
 #====================================================================================================
 @st.cache_resource
 def get_chain():
-    print("Creating chain")
     db = SQLDatabase.from_uri(db_url)
-    model = ChatOpenAI()
+    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
     
     context_chain = (
         RunnableMap({"context": itemgetter("context"), "question": itemgetter("question")})
         | retriever_prompt
-        | model
+        | llm
         | StrOutputParser()
     )
-    
-    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
     
     generate_query = create_sql_query_chain(llm, db, final_prompt)
     execute_query = QuerySQLDataBaseTool(db=db)
@@ -78,7 +74,7 @@ def invoke_chain(question, messages):
         chain = get_chain()
         history = create_history(messages)
         response = chain.invoke(
-            {"question": question,"context": context, "top_k": 4, "messages": history.messages})
+            {"question": question,"context": context, "top_k": 3, "messages": history.messages})
         history.add_user_message(question)
         history.add_ai_message(response)
         

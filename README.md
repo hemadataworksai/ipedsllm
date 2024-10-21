@@ -87,3 +87,5 @@ To run the LlamaIndex chatbot with Streamlit, use the following command:
 ```bash
 streamlit run src/llamaIndex_chat/components/main.py
 ```
+
+![alt text](MongoDB_ChatBot.png)
