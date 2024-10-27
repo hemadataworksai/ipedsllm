@@ -7,7 +7,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 class DocumentRetriever:
     def __init__(self, json_file_path = './scripts/data_utils/tableinfo.json', model_name='./embedding_model/embedding_question2context'):
 
-
         # Load the model and the JSON data
         self.model = SentenceTransformer(model_name)
         self.documents = self.load_json(json_file_path)
@@ -76,8 +75,7 @@ class DocumentRetriever:
 # Usage
 if __name__ == "__main__":
     retriever = DocumentRetriever()
-    question = "Which institutions are located in Boston?"
+    question = "Which schools require high school GPA?"
     top_k = retriever.find_top_k_similar(question, k=3)
-
     for k in top_k:
         print(k["Table_Name"])
