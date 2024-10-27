@@ -1,10 +1,11 @@
 import json
+
 from sentence_transformers import SentenceTransformer
-import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
  
 class DocumentRetriever:
-    def __init__(self, json_file_path = './scripts/data_utils/tableinfo.json', model_name='./embedding_model/embedding_question2context_L_12'):
+    def __init__(self, json_file_path = './scripts/data_utils/tableinfo.json', model_name='./embedding_model/embedding_question2context'):
+
         # Load the model and the JSON data
         self.model = SentenceTransformer(model_name)
         self.documents = self.load_json(json_file_path)
@@ -23,7 +24,7 @@ class DocumentRetriever:
             table_info = doc.get('Table_Info')
             if table_info:
                 table_description=table_info[0]['Table_Description']
-                embedding = self.model.encode(table_description, convert_to_tensor=True)
+                embedding = self.model.encode(table_description, convert_to_tensor=True).cpu().numpy()
                 embeddings[table_info[0]['Table_Name']] = {
                     'embedding': embedding,
                    'metadata': self.metadata_func(table_info[0],{})
@@ -53,7 +54,7 @@ class DocumentRetriever:
 
     def find_top_k_similar(self, question, k=5):
         # Encode the input question
-        question_embedding = self.model.encode(question, convert_to_tensor=True)
+        question_embedding = self.model.encode(question, convert_to_tensor=True).cpu().numpy()
         
         # Calculate cosine similarities between the question and each document's "table_description"
         similarities = {}
@@ -73,7 +74,7 @@ class DocumentRetriever:
 # Usage
 if __name__ == "__main__":
     retriever = DocumentRetriever()
-    question = "Which institutions are located in Boston?"
+    question = "Which schools require high school GPA?"
     top_k = retriever.find_top_k_similar(question, k=3)
-    print("Top k similar documents:", top_k)
- 
+    for k in top_k:
+        print(k["Table_Name"])
