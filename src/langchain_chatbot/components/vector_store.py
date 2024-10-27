@@ -42,8 +42,17 @@ def metadata_func(record: dict, metadata: dict) -> dict:
     return metadata
 
 
-embedding_function = OpenAIEmbeddings(
-    openai_api_key=openai_api_key, model="text-embedding-ada-002")
+#embedding_function = OpenAIEmbeddings(
+    #openai_api_key=openai_api_key, model="text-embedding-ada-002")
+from sentence_transformers import SentenceTransformer
+#Load the pre-trained  model
+my_model='embedding_question2context_L_12'
+model = SentenceTransformer(my_model)
+def embedding_function(input):
+    embeddings = model.encode(input)
+    return embeddings
+
+
 
 
 
