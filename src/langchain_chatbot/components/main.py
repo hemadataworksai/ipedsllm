@@ -1,13 +1,10 @@
+# type: ignore
 import os
 import streamlit as st
 from openai import OpenAI
-from langchain_utils import invoke_chain
-# from phoenix.trace.langchain import LangChainInstrumentor
-
-# LangChainInstrumentor().instrument()
+from langchain_utils_with_local_llm import invoke_chain
 
 openai_api_key = os.getenv("OPENAI_API_KEY")
-
 
 def main():
     st.title("University Explorer AI Chatbot")
@@ -43,7 +40,6 @@ def main():
                 st.markdown(response)
         st.session_state.messages.append(
             {"role": "assistant", "content": response})
-
 
 if __name__ == "__main__":
     main()

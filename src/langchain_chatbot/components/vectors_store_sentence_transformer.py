@@ -1,6 +1,6 @@
 import json
-
-from sentence_transformers import SentenceTransformer
+import numpy as np
+from sentence_transformers import SentenceTransformer # type: ignore
 from sklearn.metrics.pairwise import cosine_similarity
  
 class DocumentRetriever:
@@ -50,9 +50,8 @@ class DocumentRetriever:
         metadata["Column_Description"] = str(cdesc)
         # metadata["share"] = record.get("share")
         return metadata
-
-
-    def find_top_k_similar(self, question, k=5):
+    
+    def find_top_k_similar(self, question, k):
         # Encode the input question
         question_embedding = self.model.encode(question, convert_to_tensor=True).cpu().numpy()
         
@@ -69,12 +68,15 @@ class DocumentRetriever:
         top_k_docs = [self.doc_embeddings[doc_id]['metadata'] for doc_id, _ in sorted_docs[:k]]
         
         return top_k_docs
+    
+        
 
- 
-# Usage
-if __name__ == "__main__":
-    retriever = DocumentRetriever()
-    question = "Which schools require high school GPA?"
-    top_k = retriever.find_top_k_similar(question, k=3)
-    for k in top_k:
-        print(k["Table_Name"])
+retriever = DocumentRetriever()
+
+
+# if __name__ == "__main__":
+#     retriever = DocumentRetriever()
+#     question = "Which schools require high school GPA?"
+#     top_k = retriever.find_top_k_similar(question, k=3)
+#     for k in top_k:
+#         print(k)
