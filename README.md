@@ -16,7 +16,14 @@ Follow these instructions to get the project up and running on your local machin
 
 Make sure you have Python 3.11 installed on your system.
 
+### ""Add how to install  a version""-- update
+### 3.11 has a security bug-update
+### **has to installed in the venv-updates 
+
+
 ### 1. Cloning the Repository
+
+### ** Add directory structure and how to create a directory
 
 Clone the repository using the following command:
 
@@ -25,6 +32,8 @@ git clone https://github.com/hemadataworksai/ipedsllm.git
 ```
 
 ### 2. Setting up a Virtual Environment
+
+### * Add how to access the Virtual env after its created.
 
 #### Windows
 
