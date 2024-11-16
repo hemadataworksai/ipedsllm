@@ -15,10 +15,10 @@ Follow these instructions to get the project up and running on your local machin
 ### Prerequisites
 
 Make sure you have Python 3.11 installed on your system.
-
-### ""Add how to install  a version""-- update
-### 3.11 has a security bug-update
-### **has to installed in the venv-updates 
+For MacOS Go to https://www.python.org/downloads/macos/
+and download
+Python 3.11.8 - Feb. 6, 2024
+Download macOS 64-bit universal2 installer
 
 
 ### 1. Cloning the Repository
