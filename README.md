@@ -10,21 +10,44 @@ IPEDS is a comprehensive data source maintained by the National Center for Educa
 
 ## Getting Started
 
-Follow these instructions to get the project up and running on your local machine.
+Follow these instructions to get the project up and running on your local machine. 
 
 ### Prerequisites
 
-Make sure you have Python 3.11 installed on your system.
+Make sure you have Python 3.11 installed on your system. For MacOS Go to https://www.python.org/downloads/macos/ and download Python 3.11.8 - Feb. 6, 2024 Download macOS 64-bit universal2 installer
 
-### 1. Cloning the Repository
+### 1. Installing Git using Homebrew
 
-Clone the repository using the following command:
+Open Terminal on Mac and install Homebrew using the command line below
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+Install Git using the command line below 
+
+```bash
+brew install git
+```
+
+Check if Git installation is successful
+
+```bash
+git --version
+```
+
+### 2. Installing VSCode (Visual Studio Code)
+Download VSCode from the website: https://code.visualstudio.com 
+
+### 3. Cloning the Repository
+
+Launch VSCode, press (Shift+Command+P) and type the following command
+to clone the repository 
 
 ```bash
 git clone https://github.com/hemadataworksai/ipedsllm.git
 ```
 
-### 2. Setting up a Virtual Environment
+### 4. Setting up a Virtual Environment
 
 #### Windows
 
@@ -46,7 +69,7 @@ python3.11 -m venv venv
 source venv/bin/activate
 ```
 
-### 3. Installing Requirements
+### 5. Installing Requirements
 
 Install the project dependencies using pip:
 
@@ -54,19 +77,35 @@ Install the project dependencies using pip:
 pip install -r requirements.txt
 ```
 
-### 4. Creating `.env` File
+### 6. Creating `.env` File
 
-Create a `.env` file in the root directory of the project and save the following details:
+Go to IPEDSLLM project and create `.env` file in the root directory of the project and save the following details:
 
 ```
-OPENAI_API_KEY=YOUR_OPENAI_API_KEY
-DB_URL=YOUR_DATABASE_URL
-LANGCHAIN_TRACING_V2=YOUR_LANGCHAIN_TRACING_V2_SETTING
-LANGCHAIN_ENDPOINT=YOUR_LANGCHAIN_ENDPOINT
-LANGCHAIN_API_KEY=YOUR_LANGCHAIN_API_KEY
+DB_Username = <YOUR_DB_Username>
+DB_passcode = <YOUR_DB_passcode>
+DB_URL = <YOUR_DB_URL>
+DB_Port = <YOUR_DB_Port>
+OPENAI_API_KEY = <YOUR_OPENAI_API_KEY>
+LANGCHAIN_TRACING_V2 = <YOUR_LANGCHAIN_TRACING_V2_SETTING>
+LANGCHAIN_API_KEY = <YOUR_LANGCHAIN_API_KEY>
 ```
 
-Replace `YOUR_OPENAI_API_KEY`, `YOUR_DATABASE_URL`, `YOUR_LANGCHAIN_TRACING_V2_SETTING`, `YOUR_LANGCHAIN_ENDPOINT`, and `YOUR_LANGCHAIN_API_KEY` with appropriate values.
+Replace `YOUR_DB_Username`, `YOUR_DB_passcode`, `YOUR_DB_URL` and `YOUR_DB_Port` with appropraite values. 
+Replace `YOUR_OPENAI_API_KEY` and `YOUR_LANGCHAIN_API_KEY` with keys as below.
+
+#### Creating API keys (fees required)
+
+To create OPENAI_API_KEY, go to: https://platform.openai.com/usage
+
+create an account and purchase tokens starting with minimum credit. 
+From Usage > Increase limit > Billing > Add to credit balance > Profile > User_API_keys 
+and then copy & paste the key to .env file.
+
+To create LANGCHAIN_API_KEY, go to: https://smith.langchain.com/
+
+From Settings > API_keys > Create API_keys and then copy & paste the key
+to .env file. 
 
 ### 5. Running the Chatbots
 
@@ -81,3 +120,5 @@ To run the LlamaIndex chatbot with Streamlit, use the following command:
 ```bash
 streamlit run src/llamaIndex_chat/components/main.py
 ```
+#### The embedded model: 
+You can download the embedded model from: https://drive.google.com/drive/folders/1ANo_rGZ_bScGuDaTetj07YjxxFr9CC7G?usp=drive_link
