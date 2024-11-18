@@ -1,3 +1,6 @@
 venv/
 .env
 ./embedding_model/*
+.idea/**
+.idea
+./models/**
