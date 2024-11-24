@@ -51,10 +51,12 @@ class Orchestrator:
 
 
     def generate_final_output(self, table_context):
+        # Format the table context to a string for inclusion in the prompt
         formatted_context = self.table_formatter.format_to_string(table_context)
         return formatted_context
 
     def compose_final_prompt(self, instructions, question, table_context):
+      # Compose the final prompt that will be used to generate the SQL query
         return f"{instructions}\nQuestion: {question}\nContext: {table_context}"
 
 
@@ -63,7 +65,7 @@ class Orchestrator:
     def get_chain(self, question):
         print("Creating chain")
         #question = itemgetter("question")
-        # Retrieve similar documents based on the question
+        # Retrieve top K similar documents based on the question
         table_context = self.document_retriever.find_top_k_similar(question=question, k=4)
         
         # Format the context for SQL generation
@@ -96,7 +98,7 @@ class Orchestrator:
         SQL Result: {sql_results}
         Answer: 
         """
-        
+        # Invoke the LLM to rephrase the answer
         final_answer_rephrase = self.llm.invoke(my_prompt)
 
         return final_answer_rephrase
@@ -106,11 +108,12 @@ class Orchestrator:
         try:
             chain = self.get_chain()
             history = create_history(messages)
+            # Invoke the chain to process the question and retrieve the response
             response = chain.invoke({"question": question, "top_k": 3, "messages": history.messages})
-
+            # Add the question and the AI response to the  history
             history.add_user_message(question)
             history.add_ai_message(response)
-
+            # If the response is empty or contains an error, return an error message
             if not response or response.strip() == "" or "error" in response:
                 return "Sorry, I couldn't find any specific information related to your query. Please try asking something else or provide more details!"
 
@@ -120,7 +123,7 @@ class Orchestrator:
             print(f"Error invoking chain: {e}")
             return "Sorry, an error occurred while processing your request."
 
-
+   # Create a history object from the provided list of messages
     def create_history(messages):
         history = ChatMessageHistory()
         for message in messages:
@@ -133,7 +136,7 @@ class Orchestrator:
 
 #Testing 
 if __name__=="__main__":
-   Orchestrator = Orchestrator(db, llm_provider="openai")
+   orchestrator = Orchestrator(db, llm_provider="openai")
    question= "how many institutions are there in Boston?"
    response= Orchestrator.invoke_chain(question, [])
    print(response)

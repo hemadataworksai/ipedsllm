@@ -12,17 +12,20 @@ collection_name = os.getenv('COLLECTION_NAME')
 CHROMADB_HOST = os.getenv('CHROMADB_HOST')
 CHROMADB_PORT = os.getenv('CHROMADB_PORT')
 
+# Define settings for Chroma DB client, including server details
 settings = Settings(anonymized_telemetry=False, allow_reset=True,chroma_server_host=CHROMADB_HOST,chroma_server_http_port=CHROMADB_PORT,chroma_server_api_default_path= "/api/v1" )
 
+# Initialize Chroma DB client with the provided settings
 client = chromadb.Client(settings=settings)
 
+# Initialize the embedding function using OpenAI embeddings, with the provided API key
 embedding_function = OpenAIEmbeddings(
     openai_api_key=OPENAI_API_KEY, model=os.getenv('TEXT_EMBEDDING')
 )
-
+# Set up the Chroma vector store with the client, collection name, and embedding function
 vectorstore = Chroma(client=client, collection_name=collection_name,
                      embedding_function=embedding_function)
-
+# Initialize the retriever that will retrieve relevant information from the vector store
 retriever = vectorstore.as_retriever()
 
 template = """Answer the question based only on the following context:
@@ -38,4 +41,5 @@ Finally, only return table names, column names and Encoded Values only (if avail
 
 Question: {question}
 """
+# Create a ChatPromptTemplate using the defined template for retrieving relevant information
 retriever_prompt = ChatPromptTemplate.from_template(template)
