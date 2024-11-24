@@ -33,6 +33,7 @@ redis_token = os.getenv("UPSTASH_TOKEN")
 
 db = SQLDatabase.from_uri(db_url)
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+# Create a context chain for processing input and generating the query using retriever and  llm
 context_chain = (
     {"context": itemgetter("question") | retriever,
      "question": itemgetter("question")}
@@ -40,9 +41,12 @@ context_chain = (
     | llm
     | StrOutputParser()
 )
+# Create a chain for generating the SQL query based on the LLM and final prompt
 generate_query = create_sql_query_chain(llm, db, final_prompt)
+# Create a tool to execute the query on the SQL database
 execute_query = QuerySQLDataBaseTool(db=db)
 rephrase_answer = answer_prompt | llm | StrOutputParser()
+# Build a final chain that assigns context, generates SQL queries, executes the query, and rephrases the answer
 chain = (
     RunnablePassthrough.assign(context=context_chain, table_names_to_use=select_table) |
     RunnablePassthrough.assign(query=generate_query).assign(
@@ -56,11 +60,13 @@ def _is_valid_identifier(value: str) -> bool:
     valid_characters = re.compile(r"^[a-zA-Z0-9-_]+$")
     return bool(valid_characters.match(value))
 
+# FastAPI application setup with metadata
 app = FastAPI(
     title="LangChain Server",
     version="1.0",
     description="A Chatbot for University Search",
 )
+# Add middleware to allow Cross-Origin Resource Sharing (CORS)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -104,6 +110,7 @@ def create_session_factory() -> Callable[[str, str], BaseChatMessageHistory]:
 
     return get_chat_history
 
+# function to modify the config for each request
 def _per_request_config_modifier(
     config: Dict[str, Any], request: Request
 ) -> Dict[str, Any]:
@@ -122,11 +129,13 @@ def _per_request_config_modifier(
     config["configurable"] = configurable
     return config
 
+# Define the input structure for the chat endpoint
 class InputChat(TypedDict):
     """Input for the chat endpoint."""
     question: str
     """Human input"""
 
+# Create a chain with history by including chat message history management
 chain_with_history = RunnableWithMessageHistory(
     chain,
     create_session_factory(),
