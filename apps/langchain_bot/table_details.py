@@ -1,11 +1,13 @@
-from typing import List
-import pandas as pd
+import os
 from operator import itemgetter
+from typing import List
+
+import pandas as pd
+from dotenv import load_dotenv
 from langchain.chains.openai_tools import create_extraction_chain_pydantic
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI
-import os
-from dotenv import load_dotenv
+
 load_dotenv()
 
 llm = ChatOpenAI(model="gpt-3.5-turbo-1106", temperature=0)

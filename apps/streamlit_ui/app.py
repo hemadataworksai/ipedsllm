@@ -1,12 +1,15 @@
-from main import get_chat_session
-import streamlit_authenticator as stauth
-import streamlit as st
-from langchain_community.utilities.sql_database import SQLDatabase
-from register import sign_up
-import os
 import ast
-from dotenv import load_dotenv
+import os
 import uuid
+
+import streamlit as st
+import streamlit_authenticator as stauth
+from dotenv import load_dotenv
+from langchain_community.utilities.sql_database import SQLDatabase
+
+from main import get_chat_session
+from register import sign_up
+
 load_dotenv()
 
 st.set_page_config(page_title="Login", page_icon="👋", layout="centered")

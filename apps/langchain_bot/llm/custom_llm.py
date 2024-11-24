@@ -1,6 +1,6 @@
+import ollama
 from langchain_openai import ChatOpenAI
-import  ollama
-ollama.pull("llama3.1")
+
 
 class CustomLLM:   
      def __init__(self,provider:str):       
@@ -8,14 +8,14 @@ class CustomLLM:
          self.llm = self.get_llm_chat(provider)   
 
      def get_llm_chat(self, provider:str):        
-        if provider == "ollama":            
+        if provider == "ollama":
+            ollama.pull("llama3.1")
             return None       
         elif provider == "google":            
              raise NotImplementedError()        
         elif provider == "openai":           
-             return ChatOpenAI(model="gpt-3.5-turbo", temperature=0)      
-                      
-             raise NotImplementedError()    
+             return ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+        raise NotImplementedError()
      
      def invoke(self,prompt:str) -> str:       
          if self.provider == "ollama":          
@@ -24,12 +24,13 @@ class CustomLLM:
              return self.invoke_openai(prompt)  
 
      def invoke_ollama(self, prompt):       
-         response = ollama.chat(model='llama3.1', messages=[{'role': 'user', 'content': prompt}])   
-         return response["message"]["content"]  
+         response = ollama.chat(model='llama3.1', messages=[{'role': 'user', 'content': prompt}])
+         content:str = response["message"]["content"]
+         return content
 
-     def invoke_openai(self, prompt):       
+     def invoke_openai(self, prompt:str):
          response =  self.llm.invoke(prompt)        
-         return response
+         return response.message.content
          
 
 if __name__ == "__main__":    

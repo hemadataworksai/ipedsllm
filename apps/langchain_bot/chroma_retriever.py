@@ -1,10 +1,12 @@
+import os
+
+import chromadb
+from chromadb.config import Settings
+from dotenv import load_dotenv
 from langchain.prompts import ChatPromptTemplate
 from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
-import chromadb
-from chromadb.config import Settings
-import os
-from dotenv import load_dotenv
+
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")

@@ -1,27 +1,14 @@
 
-from langchain_community.utilities.sql_database import SQLDatabase
-import streamlit as st
-from prompts import final_prompt, answer_prompt
-from table_details import table_chain as select_table
-from vector_store import retriever, retriever_prompt, model
-from langchain_core.runnables import RunnablePassthrough
-from langchain_core.output_parsers import StrOutputParser
-from operator import itemgetter
-from langchain.memory import ChatMessageHistory
-from langchain_community.tools.sql_database.tool import QuerySQLDataBaseTool
-from langchain_openai import ChatOpenAI
-from langchain.chains import create_sql_query_chain
-from pydantic.v1 import BaseModel
 import os
-from dotenv import load_dotenv
-from langchain.chat_models import ChatOpenAI
 
-from vectors_store_sentence_transformer import DocumentRetriever
+import streamlit as st
 from CustomLLM import CustomLLM
 from SQL_generator import SQLGenerator
+from dotenv import load_dotenv
+from langchain.memory import ChatMessageHistory
+from langchain_community.utilities.sql_database import SQLDatabase
 from table_formatter import TableFormatter
-
-from pydantic import BaseModel
+from vectors_store_sentence_transformer import DocumentRetriever
 
 # Load environment variables
 load_dotenv()

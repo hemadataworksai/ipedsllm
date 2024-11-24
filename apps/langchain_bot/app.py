@@ -1,27 +1,30 @@
+import os
 import re
-from langchain_core.chat_history import BaseChatMessageHistory
-from prompts import final_prompt, answer_prompt
-from table_details import table_chain as select_table
-from langchain_core.runnables import RunnablePassthrough
-from langchain_core.output_parsers import StrOutputParser
 from operator import itemgetter
-from langchain_community.tools.sql_database.tool import QuerySQLDataBaseTool
-from langchain_openai import ChatOpenAI
+from typing import Any, Callable, Dict
+
+from dotenv import load_dotenv
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 from langchain.chains import create_sql_query_chain
-from langchain_community.utilities.sql_database import SQLDatabase
-from langchain_core.runnables.history import RunnableWithMessageHistory
-from langchain_core.runnables import ConfigurableFieldSpec
-from typing_extensions import TypedDict
 from langchain_community.chat_message_histories import (
     UpstashRedisChatMessageHistory,
 )
-from chroma_retriever import retriever, retriever_prompt
-from typing import Any, Callable, Dict
-from fastapi import FastAPI, HTTPException, Request
-from fastapi.middleware.cors import CORSMiddleware
-import os
+from langchain_community.tools.sql_database.tool import QuerySQLDataBaseTool
+from langchain_community.utilities.sql_database import SQLDatabase
+from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import ConfigurableFieldSpec
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_openai import ChatOpenAI
 from langserve import add_routes
-from dotenv import load_dotenv
+from typing_extensions import TypedDict
+
+from chroma_retriever import retriever, retriever_prompt
+from prompts import final_prompt, answer_prompt
+from table_details import table_chain as select_table
+
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")

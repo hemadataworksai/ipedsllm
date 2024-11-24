@@ -1,8 +1,8 @@
 import json
-
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
- 
+
+
 class DocumentRetriever:
     def __init__(self, json_file_path = './scripts/data_utils/tableinfo.json', model_name='./embedding_model/embedding_question2context'):
 

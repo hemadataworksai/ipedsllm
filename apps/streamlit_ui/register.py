@@ -1,11 +1,14 @@
-import streamlit_authenticator as stauth
-import streamlit as st
 import datetime
-import re
-from langchain_community.utilities.sql_database import SQLDatabase
-from db_connection import db_insert
 import os
+import re
+
+import streamlit as st
+import streamlit_authenticator as stauth
 from dotenv import load_dotenv
+from langchain_community.utilities.sql_database import SQLDatabase
+
+from db_connection import db_insert
+
 load_dotenv()
 
 db_url = os.getenv("POSTGRES_DB_URL")
