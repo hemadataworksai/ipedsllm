@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-COPY . .
+COPY apps/streamlit_ui/* .
 
 
 RUN python -m venv venv && \

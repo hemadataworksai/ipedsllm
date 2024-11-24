@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-COPY . .
+COPY apps/langchain_bot/* .
 
 
 RUN python -m venv venv && \
