@@ -1,5 +1,5 @@
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder, PromptTemplate
-
+# Define a prompt template for interacting with the AI model
 example_prompt = ChatPromptTemplate.from_messages(
     [
         ("human", "{input}\nSQLQuery:"),
@@ -29,6 +29,7 @@ final_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
+# Define a prompt template for answering user questions based on SQL query results
 answer_prompt = PromptTemplate.from_template(
     """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
 
