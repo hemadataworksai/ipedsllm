@@ -4,11 +4,13 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
  
 class DocumentRetriever:
+    #initialize the retriever by loading the model and teh data
     def __init__(self, json_file_path = './scripts/data_utils/tableinfo.json', model_name='./embedding_model/embedding_question2context'):
 
         # Load the model and the JSON data
         self.model = SentenceTransformer(model_name)
         self.documents = self.load_json(json_file_path)
+        #Generate embeddings for each document's table description
         self.doc_embeddings = self.create_doc_embeddings()
  
     def load_json(self, json_file_path):
@@ -25,12 +27,17 @@ class DocumentRetriever:
             if table_info:
                 table_description=table_info[0]['Table_Description']
                 embedding = self.model.encode(table_description, convert_to_tensor=True).cpu().numpy()
+                
+                 # Store the embedding and associated metadata in the embeddings dictionary
                 embeddings[table_info[0]['Table_Name']] = {
                     'embedding': embedding,
                    'metadata': self.metadata_func(table_info[0],{})
                 }
         return embeddings
- 
+
+        
+
+    # functiom to retrieve metadata for a given document to be stored alongside the embedding
     def metadata_func(self, record: dict, metadata: dict) -> dict:
         def column_retriever(ls):
             cname = []
@@ -41,6 +48,8 @@ class DocumentRetriever:
                 dtype.append(record.get("Columns")[i].get("Data_Type"))
                 cdesc.append(record.get("Columns")[i].get("Column_Description"))
             return cname, dtype, cdesc
+            
+        # Extract column metadata (names, data types, descriptions)
         cname, dtype, cdesc = column_retriever(record.get("Columns"))
 
         metadata["Table_Name"] = record.get("Table_Name")
@@ -51,6 +60,7 @@ class DocumentRetriever:
         # metadata["share"] = record.get("share")
         return metadata
 
+    # function to find the top k most similar documents to a given question based on their table descriptions.
 
     def find_top_k_similar(self, question, k=5):
         # Encode the input question
