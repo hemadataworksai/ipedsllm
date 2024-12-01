@@ -5,7 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
  
 class DocumentRetriever:
     #initialize the retriever by loading the model and teh data
-    def __init__(self, json_file_path = './scripts/data_utils/tableinfo.json', model_name='./embedding_model/embedding_question2context'):
+    def __init__(self, json_file_path = './scripts/data_utils/tableinfo.json', model_name='./models/embedding_model/embedding_question2context'):
 
         # Load the model and the JSON data
         self.model = SentenceTransformer(model_name)
@@ -62,7 +62,7 @@ class DocumentRetriever:
 
     # function to find the top k most similar documents to a given question based on their table descriptions.
 
-    def find_top_k_similar(self, question, k=5):
+    def find_top_k_similar(self, question, k=4):
         # Encode the input question
         question_embedding = self.model.encode(question, convert_to_tensor=True).cpu().numpy()
         
