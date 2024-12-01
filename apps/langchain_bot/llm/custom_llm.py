@@ -2,6 +2,7 @@ from langchain_openai import ChatOpenAI
 import  ollama
 ollama.pull("llama3.1")
 
+## Next semester 
 class CustomLLM:   
      def __init__(self,provider:str):       
          self.provider = provider  
