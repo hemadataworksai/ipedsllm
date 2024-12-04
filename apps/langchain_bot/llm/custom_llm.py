@@ -1,8 +1,8 @@
+import ollama
 from langchain_openai import ChatOpenAI
-import  ollama
-ollama.pull("llama3.1")
 
-## Next semester 
+
+## Next semester
 class CustomLLM:   
      def __init__(self,provider:str):       
          self.provider = provider  
@@ -11,7 +11,8 @@ class CustomLLM:
 
      def get_llm_chat(self, provider:str):   
         # If the provider is 'ollama', return None (No LLM) 
-        if provider == "ollama":            
+        if provider == "ollama":
+            ollama.pull("llama3.1")
             return None 
          # Raise error for unsupported 'google' provider
         elif provider == "google":            

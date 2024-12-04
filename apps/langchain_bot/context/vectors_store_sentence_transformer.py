@@ -2,7 +2,8 @@ import json
 
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
- 
+
+
 class DocumentRetriever:
     #initialize the retriever by loading the model and teh data
     def __init__(self, json_file_path = './data/data_for_embedding/tableinfo.json', model_name='./models/embedding_model/embedding_question2context'):
@@ -62,7 +63,7 @@ class DocumentRetriever:
 
     # function to find the top k most similar documents to a given question based on their table descriptions.
 
-    def find_top_k_similar(self, question, k=4):
+    def find_top_k_similar(self, question:str, k=4):
         # Encode the input question
         question_embedding = self.model.encode(question, convert_to_tensor=True).cpu().numpy()
         
