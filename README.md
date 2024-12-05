@@ -129,7 +129,9 @@ You can download the embedded model from: https://drive.google.com/drive/folders
 
 ----------------
 
-docker compose run from the root , make sure you have .env file.
+docker compose run from the root. 
+make sure you have .env file.
+already download the embedding mode into models/embedding_model folder.
 
 
 build : 
@@ -142,6 +144,9 @@ run:
 ```bash
 docker-compose up -d
 ```
+go to : 
+http://localhost:8001/playground/
+
 destroy:
 ```bash
 docker-compose down
