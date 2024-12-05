@@ -28,8 +28,8 @@ app.add_middleware(
 
 # Create a chain with history by including chat message history management
 chain_with_history = RunnableWithMessageHistory(
-    chain,
-    create_session_factory(),
+    runnable=chain,
+    get_session_history=create_session_factory(),
     input_messages_key="question",
     history_messages_key="messages",
     history_factory_config=[

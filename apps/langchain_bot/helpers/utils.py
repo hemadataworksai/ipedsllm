@@ -1,12 +1,10 @@
 import re
 from typing import  Callable, Dict, Any
-
-from fastapi import HTTPException
 from flask import Request
-from langchain_community.chat_message_histories import UpstashRedisChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 
 from apps.langchain_bot.env import redis_url, redis_token
+from apps.langchain_bot.history_messages.history_messages_redis import RedisChatMessageHistory
 
 
 def _is_valid_identifier(value: str) -> bool:
@@ -24,15 +22,15 @@ def create_session_factory() -> Callable[[str, str], BaseChatMessageHistory]:
     Returns:
         A factory that can retrieve chat histories keyed by user ID and conversation ID.
     """
-    def get_chat_history(user_id: str, conversation_id: str) -> UpstashRedisChatMessageHistory:
+    def get_chat_history(user_id: str, conversation_id: str) -> RedisChatMessageHistory:
         """Get a chat history from a user id and conversation id."""
-        if not _is_valid_identifier(user_id):
-            raise ValueError(
-                f"User ID {user_id} is not in a valid format. "
-                "User ID must only contain alphanumeric characters, "
-                "hyphens, and underscores."
-                "Please include a valid cookie in the request headers called 'user-id'."
-            )
+        # if not _is_valid_identifier(user_id):
+        #     raise ValueError(
+        #         f"User ID {user_id} is not in a valid format. "
+        #         "User ID must only contain alphanumeric characters, "
+        #         "hyphens, and underscores."
+        #         "Please include a valid cookie in the request headers called 'user-id'."
+        #     )
         if not _is_valid_identifier(conversation_id):
             raise ValueError(
                 f"Conversation ID {conversation_id} is not in a valid format. "
@@ -42,7 +40,7 @@ def create_session_factory() -> Callable[[str, str], BaseChatMessageHistory]:
                 "chain.invoke(.., {'configurable': {'conversation_id': '123'}})"
             )
 
-        return UpstashRedisChatMessageHistory(
+        return RedisChatMessageHistory(
             url=redis_url,
             token=redis_token,
             ttl=604800,
@@ -60,11 +58,11 @@ def _per_request_config_modifier(
     configurable = config.get("configurable", {})
     user_id = request.cookies.get("user_id", None)
 
-    if user_id is None:
-        raise HTTPException(
-            status_code=400,
-            detail="No user id found. Please set a cookie named 'user_id'.",
-        )
+    # if user_id is None:
+    #     raise HTTPException(
+    #         status_code=400,
+    #         detail="No user id found. Please set a cookie named 'user_id'.",
+    #     )
 
     configurable["user_id"] = user_id
     config["configurable"] = configurable
