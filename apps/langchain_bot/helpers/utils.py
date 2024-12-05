@@ -1,7 +1,7 @@
 import re
 from typing import  Callable, Dict, Any
-from flask import Request
 from langchain_core.chat_history import BaseChatMessageHistory
+from requests import Request
 
 from apps.langchain_bot.env import redis_url, redis_token
 from apps.langchain_bot.history_messages.history_messages_redis import RedisChatMessageHistory

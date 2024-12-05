@@ -2,8 +2,7 @@ import ollama
 from langchain_openai import ChatOpenAI
 
 
-## Next semester
-class CustomLLM:   
+class LLMProvider:
      def __init__(self,provider:str):       
          self.provider = provider  
         # Select the appropriate LLM based on the provider
@@ -42,7 +41,7 @@ class CustomLLM:
          
 #Usage example
 if __name__ == "__main__":    
-     custom_llm = CustomLLM(provider="ollama")   
+     custom_llm = LLMProvider(provider="ollama")
      
      
      instruction = """       

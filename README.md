@@ -126,3 +126,23 @@ streamlit run src/llamaIndex_chat/components/main.py
 #### The embedded model: 
 
 You can download the embedded model from: https://drive.google.com/drive/folders/1ANo_rGZ_bScGuDaTetj07YjxxFr9CC7G?usp=drive_link
+
+----------------
+
+docker compose run from the root , make sure you have .env file.
+
+
+build : 
+```bash
+docker-compose build --no-cache
+```
+
+run:
+
+```bash
+docker-compose up -d
+```
+destroy:
+```bash
+docker-compose down
+```
