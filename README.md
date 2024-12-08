@@ -125,7 +125,7 @@ streamlit run src/llamaIndex_chat/components/main.py
 ```
 #### The embedded model: 
 
-You can download the embedded model from: https://drive.google.com/drive/folders/1ANo_rGZ_bScGuDaTetj07YjxxFr9CC7G?usp=drive_link
+You can download the embedded model from: https://drive.google.com/drive/folders/18v-9ts2KdGxEmZ3hg0BSxvsC3-f6HWZb?usp=drive_link
 
 ----------------
 
