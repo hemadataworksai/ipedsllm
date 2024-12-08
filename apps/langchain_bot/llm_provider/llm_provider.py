@@ -17,11 +17,11 @@ class LLMProvider:
         elif provider == "google":            
              raise NotImplementedError()  
         # If the provider is 'openai', return the OpenAI model (gpt-3.5-turbo)
-        elif provider == "openai":           
-             return ChatOpenAI(model="gpt-3.5-turbo", temperature=0)      
-                      
-             raise NotImplementedError()    
-     
+        elif provider == "openai":
+            return ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+        else:
+            raise NotImplementedError()
+
      def invoke(self,prompt:str) -> str:       
          if self.provider == "ollama":          
              return self.invoke_ollama(prompt)       
@@ -34,11 +34,11 @@ class LLMProvider:
         # Extract the message content from the response and return it
          return response["message"]["content"]  
 
-     def invoke_openai(self, prompt):  
+     def invoke_openai(self, prompt) -> str:
         # Call the OpenAI model using the llm object and return the response
-         response =  self.llm.invoke(prompt)        
+         response =  self.llm.invoke(prompt).content
          return response
-         
+
 #Usage example
 if __name__ == "__main__":    
      custom_llm = LLMProvider(provider="ollama")
