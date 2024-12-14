@@ -118,11 +118,6 @@ To run the Langchain chatbot with Streamlit, use the following command:
 streamlit run src/langchain_chatbot/components/main.py
 ```
 
-To run the LlamaIndex chatbot with Streamlit, use the following command:
-
-```bash
-streamlit run src/llamaIndex_chat/components/main.py
-```
 #### The embedded model: 
 
 You can download the embedded model from: https://drive.google.com/drive/folders/18v-9ts2KdGxEmZ3hg0BSxvsC3-f6HWZb?usp=drive_link
