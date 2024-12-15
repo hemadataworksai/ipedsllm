@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from langchain_core.runnables import RunnableLambda, RunnablePassthrough, RunnableParallel
 from apps.langchain_bot.dependencies import document_retriever, table_formatter, llm
 
-
+#get top k tables based on user's query and format to string 
 def get_context(inputs : dict) -> str:
     context = document_retriever.find_top_k_similar(inputs["question"],k=3)
     return table_formatter.doc2str(context)
@@ -14,7 +14,7 @@ def create_final_prompt(question, context) -> str:
 
 def generate_sql_llm(final_prompt:str):
     return llm.invoke(final_prompt)
-
+# TODO: complete those functions for SQL generation and rephrasing
 
 def get_query_results(sql_query:str):
     print(sql_query)
