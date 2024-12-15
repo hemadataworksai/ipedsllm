@@ -44,7 +44,7 @@ chain = (
         | get_query_results_runnable
         | rephrase_query_results_runnable
 )
-
+#TODO: start here when user inputs a query 
 if __name__ == '__main__':
     load_dotenv()
     print(chain.invoke({"question" : 'how many students at Boston?',"messages" : [] } ))
