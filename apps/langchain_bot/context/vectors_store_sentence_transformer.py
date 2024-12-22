@@ -5,7 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 class DocumentRetriever:
-    #initialize the retriever by loading the custom model (fine tuned in Google Colab) and the data
+    #initialize the retriever by loading the custom model (fine tuned in Google Colab) and the data, the model should be downloaded from Readme file
     def __init__(self, json_file_path = './data/data_for_embedding/tableinfo.json', model_name='./models/embedding_model/embedding_question2context'):
 
         # Load the model and the JSON data
