@@ -5,7 +5,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 
- 
+ #the first step is create a in memory database , for embediing document , reading the json file data , on init method 
+#this is the first setup we do 
+#then , we have class , that already loaded the "database" , now we can query the database using a get k top similar document
 class DocumentRetriever:
     #initialize the retriever by loading the custom model (fine tuned in Google Colab) and the data, the model should be downloaded from Readme file
    #create an in memory database
