@@ -3,9 +3,10 @@ import json
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
+from apps.langchain_bot.phases.context.table_formatter import TableFormatter
 
 
- #the first step is create a in memory database , for embedding document , reading the json file data , on init method
+#the first step is create an in memory database , for embedding document , reading the json file data , on init method
 #this is the first setup we do 
 #then , we have class , that already loaded the "database" , now we can query the database using a get k top similar document
 class DocumentRetriever:
@@ -18,7 +19,9 @@ class DocumentRetriever:
         self.documents = self.load_json(json_file_path)
         #Generate embeddings for each document's table description
         self.doc_embeddings = self.create_doc_embeddings()
- 
+        self.table_formatter = TableFormatter()
+
+
     def load_json(self, json_file_path):
         # Load the JSON file containing documents
         with open(json_file_path, 'r') as f:
@@ -68,7 +71,7 @@ class DocumentRetriever:
 
     # function to find the top k most similar documents to a given question based on their table descriptions.
 
-    def find_top_k_similar(self, question:str, k=4):
+    def find_top_k_similar(self, question:str, k=4) -> str:
         # Encode the input question
         question_embedding = self.model.encode(question, convert_to_tensor=True).cpu().numpy()
         
@@ -83,14 +86,14 @@ class DocumentRetriever:
         # Sort documents by similarity and return the top k
         sorted_docs = sorted(similarities.items(), key=lambda x: x[1], reverse=True)
         top_k_docs = [self.doc_embeddings[doc_id]['metadata'] for doc_id, _ in sorted_docs[:k]]
-        
-        return top_k_docs
+
+        context_str =  self.table_formatter.docs2str(top_k_docs)
+        return context_str
 
  
 # Usage
 if __name__ == "__main__":
     retriever = DocumentRetriever()
     question = "Which schools require high school GPA?"
-    top_k = retriever.find_top_k_similar(question, k=3)
-    for k in top_k:
-        print(k["Table_Name"])
+    context = retriever.find_top_k_similar(question, k=3)
+    print(context)

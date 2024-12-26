@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from langchain_core.runnables import RunnableLambda, RunnablePassthrough, RunnableParallel
-from apps.langchain_bot.dependencies import document_retriever, table_formatter, llm
+from apps.langchain_bot.dependencies import document_retriever, llm
 from typing import Dict, Any
 
 
@@ -15,7 +15,7 @@ def get_context(inputs: Dict[str, Any]) -> str:
         str: A formatted string representation of the top k tables related to the query.
     """
     context = document_retriever.find_top_k_similar(inputs["question"], k=3)
-    return table_formatter.doc2str(context)
+    return context
 
 
 def create_final_prompt(question: str, context: str) -> str:

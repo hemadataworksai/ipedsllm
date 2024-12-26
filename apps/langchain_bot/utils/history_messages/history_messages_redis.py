@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class RedisChatMessageHistory(BaseChatMessageHistory):
-    """Chat message history stored in an Redis database."""
+    """Chat message history stored in a Redis database."""
 
     def __init__(
             self,

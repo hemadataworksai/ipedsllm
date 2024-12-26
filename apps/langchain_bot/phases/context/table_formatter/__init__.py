@@ -1,9 +1,12 @@
+from typing import List, Any
+
+
 class TableFormatter:
 
     #function to  Formats the provided table context into a  string
-    def doc2str(self, table_context) -> str:
+    def docs2str(self, tables_context:List[Any]) -> str:
         str_context = ""
-        for ix, table_info in enumerate(table_context):
+        for ix, table_info in enumerate(tables_context):
             table_name = table_info.get("Table_Name")
             table_description = table_info.get("Table_Description")
             # Format the information about the table, including its index, description, columns, and sample rows
