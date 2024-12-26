@@ -45,7 +45,6 @@ chain_with_history = RunnableWithMessageHistory(
             annotation=str,
             name="Conversation ID",
             description="Unique identifier for the conversation.",
-            default="",
             is_shared=True,
         ),
     ],

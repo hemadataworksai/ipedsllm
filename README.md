@@ -131,6 +131,11 @@ PYTHONPATH=. python run apps/langchain_bot/app_run.py
 docker-compose build --no-cache
 ```
 
+
+### Build the Docker Image with Cache (Faster Rebuild):
+```bash
+docker-compose build
+```
 ### Run the Docker Container:
 ```bash
 docker-compose up -d
