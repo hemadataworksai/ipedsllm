@@ -126,6 +126,10 @@ PYTHONPATH=. python run apps/langchain_bot/app_run.py
 
 ## Docker Compose
 
+Installing Docker:
+
+https://docs.docker.com/engine/install/
+
 ### Build the Docker Image:
 ```bash
 docker-compose build --no-cache
