@@ -151,6 +151,144 @@ docker-compose up -d
 ```bash
 docker-compose down
 ```
+---
+
+Certainly! Here's an updated version of the README section with the addition of `docker ps`:
 
 ---
+
+## Troubleshooting Docker
+
+When working with Docker, you may encounter a variety of issues. Below is a guide to help you diagnose and troubleshoot common problems.
+
+### 1. **Docker Daemon Not Running**
+
+If you're getting errors like `Cannot connect to the Docker daemon`, it means the Docker daemon is not running. To start Docker:
+
+- **On Linux:**
+  ```bash
+  sudo systemctl start docker
+  ```
+
+- **On macOS and Windows:** Docker should start automatically. If not, manually start Docker from the Docker Desktop application.
+
+You can verify the Docker daemon is running by checking its status:
+```bash
+sudo systemctl status docker
+```
+
+### 2. **Permission Denied Error**
+
+You might encounter `Permission Denied` when trying to run Docker commands. This typically occurs when you're not in the `docker` group.
+
+To fix this:
+
+1. Add your user to the `docker` group:
+   ```bash
+   sudo usermod -aG docker $USER
+   ```
+2. Log out and log back in, or restart your computer to apply the changes.
+
+### 3. **Docker Container Crashes**
+
+If a container crashes immediately after starting, it could be due to a misconfiguration, resource limits, or application errors.
+
+- **Check logs for errors:**
+  ```bash
+  docker logs <container_name_or_id>
+  ```
+
+- If your container is exiting because of a configuration issue, such as missing environment variables, fix the issue and try again.
+
+### 4. **Out of Memory (OOM) Errors**
+
+Sometimes, containers run out of memory, especially when you're dealing with resource-intensive applications.
+
+- **Increase the memory limit** in your Docker settings or configure memory limits for your containers using `-m` or `--memory` flags:
+  ```bash
+  docker run -m 4g my_image
+  ```
+
+- Ensure that your containerized application is optimized to use memory efficiently.
+
+### 5. **Port Conflicts**
+
+If you’re unable to bind ports, make sure no other services are using the same port on your system. You can check which service is using a port with:
+- **On Linux/macOS:**
+  ```bash
+  sudo lsof -i :<port_number>
+  ```
+
+- **On Windows:**
+  ```bash
+  netstat -ano | findstr :<port_number>
+  ```
+
+### 6. **Docker Images Not Found**
+
+If Docker can’t find the image you’re trying to pull or use, make sure that the image name is correct and exists in the Docker registry.
+
+- Verify the image is available:
+  ```bash
+  docker search <image_name>
+  ```
+
+- If the image is private, ensure you have access by logging into the registry:
+  ```bash
+  docker login
+  ```
+
+### 7. **Network Issues in Containers**
+
+If your containers are not able to reach external services, there might be issues with Docker’s network settings.
+
+- Check the network configuration of your container:
+  ```bash
+  docker network ls
+  docker network inspect <network_name>
+  ```
+
+- If your container needs external access, ensure that the network mode is set to `host` or configure proper port mapping with `-p` when running the container.
+
+### 8. **Build Failures**
+
+If your Docker build fails, check the build logs for errors. Common issues include:
+
+- **Missing dependencies** in the Dockerfile.
+- **Permissions issues** in files being copied into the container.
+- **Incorrect commands** or invalid syntax in the Dockerfile.
+
+To debug build errors, use the `--no-cache` option to avoid using cached layers:
+```bash
+docker build --no-cache -t my_image .
+```
+
+### 9. **Viewing Running Containers**
+
+You can view all running Docker containers using the `docker ps` command:
+
+```bash
+docker ps
+```
+
+This will list all the currently running containers, showing their container IDs, names, status, ports, and more. If you want to see all containers, including stopped ones, you can use the `-a` flag:
+
+```bash
+docker ps -a
+```
+
+If you need more detailed information about a specific container, including its logs and resource usage, you can use:
+
+```bash
+docker inspect <container_name_or_id>
+```
+
+This will provide a detailed JSON output of the container’s configuration and current state.
+
+---
+
+This should give you a good starting point for troubleshooting Docker-related issues, including managing running containers with `docker ps`.
+
+
+
 
