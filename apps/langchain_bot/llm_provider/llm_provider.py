@@ -1,9 +1,11 @@
+import os
+
 import ollama
 from langchain_openai import ChatOpenAI
 
 
 class LLMProvider:
-     def __init__(self,provider:str):       
+     def __init__(self,provider:str):
          self.provider = provider  
         # Select the appropriate LLM based on the provider
          self.llm = self.get_llm_chat(provider)   

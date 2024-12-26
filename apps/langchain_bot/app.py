@@ -8,7 +8,6 @@ from langserve import add_routes
 from apps.langchain_bot.chain import chain
 from apps.langchain_bot.helpers.utils import  create_session_factory, _per_request_config_modifier
 from apps.langchain_bot.interfaces.chat import InputChat
-#TODO: Move this file to main directory 
 
 # FastAPI application setup with metadata
 app = FastAPI(

@@ -24,13 +24,6 @@ def create_session_factory() -> Callable[[str, str], BaseChatMessageHistory]:
     """
     def get_chat_history(user_id: str, conversation_id: str) -> RedisChatMessageHistory:
         """Get a chat history from a user id and conversation id."""
-        # if not _is_valid_identifier(user_id):
-        #     raise ValueError(
-        #         f"User ID {user_id} is not in a valid format. "
-        #         "User ID must only contain alphanumeric characters, "
-        #         "hyphens, and underscores."
-        #         "Please include a valid cookie in the request headers called 'user-id'."
-        #     )
         if not _is_valid_identifier(conversation_id):
             raise ValueError(
                 f"Conversation ID {conversation_id} is not in a valid format. "
@@ -57,12 +50,6 @@ def _per_request_config_modifier(
     config = config.copy()
     configurable = config.get("configurable", {})
     user_id = request.cookies.get("user_id", None)
-
-    # if user_id is None:
-    #     raise HTTPException(
-    #         status_code=400,
-    #         detail="No user id found. Please set a cookie named 'user_id'.",
-    #     )
 
     configurable["user_id"] = user_id
     config["configurable"] = configurable
