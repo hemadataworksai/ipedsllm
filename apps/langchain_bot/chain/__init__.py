@@ -56,7 +56,7 @@ def get_query_results(sql_query: str) -> Any:
         str: The results of the query (mocked as "25 students").
     """
     print(sql_query)
-    return "25 students"
+    return "26 students"
 
 
 def rephrase_query_results(query_results: Any) -> str:

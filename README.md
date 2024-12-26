@@ -99,6 +99,12 @@ OLLAMA_HOST=http://host.docker.internal:11434  # Use http://localhost:11434 if n
 - Set `LLM_PROVIDER` to `ollama` or `openai`.
 - If using `openai`, provide a valid `OPENAI_API_KEY`.
 
+##
+Install Ollama
+
+https://ollama.com/
+
+
 #### Create an OpenAI API Key (if using OpenAI):
 1. Go to [OpenAI Platform](https://platform.openai.com/usage).
 2. Create an account and purchase credits.
