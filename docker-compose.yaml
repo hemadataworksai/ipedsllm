@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  redis:
+    image: redis:latest
+    container_name: redis-text2sql
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    network_mode: bridge
+    volumes:
+      - redis_data:/data
+
+  langchain_bot:
+    build:
+      context: .
+      dockerfile: dockerfiles/langchain_bot/Dockerfile
+    container_name: langchain_bot
+    depends_on:
+      - redis
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DB_URL=${DB_URL}
+      - REDIS_URL=${REDIS_URL}
+      - REDIS_TOKEN=${REDIS_TOKEN}
+      - OLLAMA_HOST=${OLLAMA_HOST}
+      - LLM_PROVIDER=${LLM_PROVIDER}
+    ports:
+      - "8001:8001"
+    restart: always
+    volumes:
+      - ./models:/root_dir/models
+      - ./data:/root_dir/data
+
+volumes:
+  redis_data:

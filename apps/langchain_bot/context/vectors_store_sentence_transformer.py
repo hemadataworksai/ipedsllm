@@ -2,10 +2,16 @@ import json
 
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
- 
+
+
+
+ #the first step is create a in memory database , for embedding document , reading the json file data , on init method
+#this is the first setup we do 
+#then , we have class , that already loaded the "database" , now we can query the database using a get k top similar document
 class DocumentRetriever:
-    #initialize the retriever by loading the model and teh data
-    def __init__(self, json_file_path = './scripts/data_utils/tableinfo.json', model_name='./models/embedding_model/embedding_question2context'):
+    #initialize the retriever by loading the custom model (fine-tuned in Google Colab) and the data, the model should be downloaded from Readme file
+   #create an in memory database
+    def __init__(self, json_file_path = './data/data_for_embedding/tableinfo.json', model_name='./models/embedding_model/embedding_question2context'):
 
         # Load the model and the JSON data
         self.model = SentenceTransformer(model_name)
@@ -62,7 +68,7 @@ class DocumentRetriever:
 
     # function to find the top k most similar documents to a given question based on their table descriptions.
 
-    def find_top_k_similar(self, question, k=4):
+    def find_top_k_similar(self, question:str, k=4):
         # Encode the input question
         question_embedding = self.model.encode(question, convert_to_tensor=True).cpu().numpy()
         
