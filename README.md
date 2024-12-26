@@ -147,3 +147,16 @@ destroy:
 ```bash
 docker-compose down
 ```
+
+
+env:
+
+````
+OPENAI_API_KEY=xxx
+LLM_PROVIDER=ollama
+DB_URL=xxx
+REDIS_URL=redis://host.docker.internal:6379 # redis://localhost:6379
+REDIS_TOKEN=1233
+TOKENIZERS_PARALLELISM=true
+OLLAMA_HOST=http://host.docker.internal:11434  # http://localhost:11434
+```

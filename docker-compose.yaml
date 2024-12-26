@@ -26,6 +26,7 @@ services:
       - REDIS_URL=${REDIS_URL}
       - REDIS_TOKEN=${REDIS_TOKEN}
       - OLLAMA_HOST=${OLLAMA_HOST}
+      - LLM_PROVIDER=${LLM_PROVIDER}
     ports:
       - "8001:8001"
     restart: always
