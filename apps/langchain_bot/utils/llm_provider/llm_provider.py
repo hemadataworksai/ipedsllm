@@ -1,3 +1,6 @@
+
+#TODO Add author and date
+#TODO add class role
 import os
 
 import ollama
@@ -9,7 +12,7 @@ class LLMProvider:
          self.provider = provider  
         # Select the appropriate LLM based on the provider
          self.llm = self.get_llm_chat(provider)   
-
+#TODO- add comments; role of this function, what is this function doing?
      def get_llm_chat(self, provider:str):   
         # If the provider is 'ollama', return None (No LLM) 
         if provider == "ollama":
@@ -23,19 +26,19 @@ class LLMProvider:
             return ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
         else:
             raise NotImplementedError()
-
+#TODO- add comments; role of this function, what is this function doing?
      def invoke(self,prompt:str) -> str:       
          if self.provider == "ollama":          
              return self.invoke_ollama(prompt)       
          elif self.provider == "openai":            
              return self.invoke_openai(prompt)  
-
+#TODO- add comments; role of this function, what is this function doing?
      def invoke_ollama(self, prompt):   
         # Call the Ollama API with the provided model and prompt
          response = ollama.chat(model='llama3.1', messages=[{'role': 'user', 'content': prompt}])   
         # Extract the message content from the response and return it
          return response["message"]["content"]  
-
+#TODO- add comments; role of this function, what is this function doing?
      def invoke_openai(self, prompt) -> str:
         # Call the OpenAI model using the llm object and return the response
          response =  self.llm.invoke(prompt).content
