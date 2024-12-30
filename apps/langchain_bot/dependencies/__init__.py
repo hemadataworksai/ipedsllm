@@ -1,3 +1,5 @@
+#TODO-add Author
+#TODO-add role of this class and missing comments
 import os
 
 from apps.langchain_bot.env import db_url
