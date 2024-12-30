@@ -1,3 +1,5 @@
+#TODO add author, date
+#TODO add role of this class and comments
 import os
 
 from dotenv import load_dotenv
