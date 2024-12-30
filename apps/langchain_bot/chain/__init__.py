@@ -1,9 +1,11 @@
+#TODO- add author date
+##TODO- add role of class and functions retails
 from dotenv import load_dotenv
 from langchain_core.runnables import RunnableLambda, RunnablePassthrough, RunnableParallel
 from apps.langchain_bot.dependencies import document_retriever, llm
 from typing import Dict, Any
 
-
+#TODO- add comments ; role and what this function is doing
 def get_context(inputs: Dict[str, Any]) -> str:
     """
     Retrieves the top k tables based on the user's query and formats them as a string.
@@ -17,7 +19,7 @@ def get_context(inputs: Dict[str, Any]) -> str:
     context = document_retriever.find_top_k_similar(inputs["question"], k=3)
     return context
 
-
+#TODO- add comments ; role and what this function is doing
 def create_final_prompt(question: str, context: str) -> str:
     """
     Creates the final prompt by combining the user's question and the retrieved context.
@@ -31,7 +33,7 @@ def create_final_prompt(question: str, context: str) -> str:
     """
     return f"Question : {question} \n Context : {context}"
 
-
+#TODO- add comments ; role and what this function is doing
 def generate_sql_llm(final_prompt: str) -> str:
     """
     Generates SQL code using the provided final prompt.
@@ -44,7 +46,7 @@ def generate_sql_llm(final_prompt: str) -> str:
     """
     return llm.invoke(final_prompt)
 
-
+#TODO- add comments ; role and what this function is doing
 def get_query_results(sql_query: str) -> Any:
     """
     Executes the provided SQL query and returns the results.
@@ -58,7 +60,7 @@ def get_query_results(sql_query: str) -> Any:
     print(sql_query)
     return "26 students"
 
-
+#TODO- add comments ; role and what this function is doing
 def rephrase_query_results(query_results: Any) -> str:
     """
     Rephrases the query results into a user-friendly answer.
